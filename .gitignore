@@ -1,0 +1,34 @@
+# Ignore binary and object files
+bin/
+obj/
+
+# Ignore compiled dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Ignore executables
+*.exe
+
+# Ignore build artifacts
+*.o
+*.out
+*.a
+*.log
+*.d
+
+# Ignore temporary files created by editors/IDEs
+*.swp
+*~
+*.tmp
+*.temp
+*.bak
+
+
+# Ignore compiled data
+data/*.csv
+
+# Ignore generated or temporary files
+*.tar.gz
+*.zip
+
