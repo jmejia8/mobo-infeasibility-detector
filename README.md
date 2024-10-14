@@ -22,5 +22,5 @@ This project computes the Euclidean distance between all rows of a dataset.
 2. Run the program:
 
    ```
-   ./bin/distance_calculator
+   ./bin/main data.csv 0.001
    ```

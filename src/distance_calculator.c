@@ -1,4 +1,14 @@
+#include <math.h>
 #include "distance_calculator.h"
+
+float manhattan_distance(float *X, int ncol, int i, int j) {
+    float dist = 0.0;
+    for (int k = 0; k < ncol; ++k) {
+        float diff = X[i * ncol + k] - X[j * ncol + k];
+        dist += fabs(diff);
+    }
+    return dist;
+}
 
 float euclidean_distance(float *X, int ncol, int i, int j) {
     float dist = 0.0;
@@ -24,7 +34,7 @@ float* compute_distance_matrix(float *X, int nrow, int ncol) {
             if (i == j) {
                 dist_matrix[i * nrow + j] = 0.0;  // Distance to self is 0
             } else {
-                dist_matrix[i * nrow + j] = euclidean_distance(X, ncol, i, j);
+                dist_matrix[i * nrow + j] = manhattan_distance(X, ncol, i, j);
             }
         }
     }
