@@ -112,6 +112,11 @@ void save_labels(char *filename, int *L, int n)
     printf("Data saved at %s\n", filename);
 }
 
+//float* load_pof()
+//{
+//    
+//}
+
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
@@ -134,6 +139,7 @@ int main(int argc, char* argv[]) {
     if (argc == 3)
         eps = strtof(argv[2], NULL);
 
+    float* POF = NULL;
 
     printf("Parameters: Manhattan distance, with epsilon = %e\n", eps);
 
@@ -168,7 +174,7 @@ int main(int argc, char* argv[]) {
     }
 
     printf("Labeling data with epsilon = %e\n", eps);
-    int *L = solution_labeling(dist_matrix, f, nrow, nf, eps);
+    int *L = solution_labeling(dist_matrix, f, POF, nrow, nf, eps);
     save_labels(strcat(filename,"_labels.csv"), L, nrow);
     // Free memory
     free_csv(csv);

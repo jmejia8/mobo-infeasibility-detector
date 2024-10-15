@@ -50,10 +50,14 @@ void update_label(int *L, int i, int j, float *f, int n_objectives)
     }
 }
 
-int *solution_labeling(float *D, float *f, int n_solutions, int n_objectives, float eps)
+int *solution_labeling(float *D, float *f, float* POF, int n_solutions, int n_objectives, float eps)
 {
     int i,j;
     int *L = (int*) malloc(sizeof(int)*n_solutions);
+    if (L==NULL) {
+        printf("Error: Fail allocating memory (solution labeling)\n");
+        exit(1);
+    }
 
     // initialize labels as deceptive
     for (i = 0; i < n_solutions; ++i) L[i] = 5;
@@ -66,5 +70,9 @@ int *solution_labeling(float *D, float *f, int n_solutions, int n_objectives, fl
             }
         }
     }
+
+    if (POF == NULL)
+        return L;
+
     return L;
 }
