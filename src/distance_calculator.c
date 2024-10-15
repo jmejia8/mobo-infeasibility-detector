@@ -26,7 +26,7 @@ float* compute_distance_matrix(float *X, int nrow, int ncol) {
     if (dist_matrix == NULL) {
         printf("Error: Memory allocation failed (distance matrix)\n");
         //printf("%d, %d^2 = %d\n", sizeof(float), nrow, nrow*nrow);
-        printf("\tMemory required: %.4f GB\n", (double)(sizeof(float) * nrow * nrow) * (double)  9.3132257461548E-10);
+        printf("\tMemory required: %.2f GB\n", (double)(sizeof(float) * nrow * nrow) * (double)  9.3132257461548E-10);
         exit(1);
     }
 
