@@ -93,6 +93,8 @@ float* get_slice(CSV *csv, int row_start, int row_end, int col_start, int col_en
 
 float* get_columns(int *nx, CSV *archive, char token)
 {
+    if (archive == NULL) return NULL;
+
     int col_range[2];
     int nrow = archive->row_count;
     get_columns_range(col_range, archive, token);

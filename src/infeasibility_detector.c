@@ -238,11 +238,11 @@ void infeasibility_detector(char *archive_fname, char *true_front_fname, float e
 
     if (POF != NULL)
         n_pof_solutions = true_front->row_count;
-    else
+    else if (true_front != NULL)
         printf("Warning: Fail loading objectives from true Pareto-front.\n");
 
 
-    if (_nF_pof != nF) {
+    if (POF != NULL && _nF_pof != nF) {
         printf("Warning: objective spaces among POF and archive is different %d != %d.\n", _nF_pof, nF);
         POF = NULL;
     }
@@ -250,10 +250,6 @@ void infeasibility_detector(char *archive_fname, char *true_front_fname, float e
     int *L = solution_labeling(X, f, F, POF, nrow, n_ul_decisions, nf,
             nF, n_pof_solutions, eps);
 
-    for (int i = 0; i < nrow; ++i) {
-        break;
-        printf("%d ", L[i]);
-    }
 
     save_labels(strcat(archive_fname,"_labels.csv"), L, nrow);
 
