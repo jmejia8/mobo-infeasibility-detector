@@ -1,4 +1,3 @@
-#include <math.h>
 #include "distance_calculator.h"
 
 float manhattan_distance(float *X, int ncol, int i, int j) {

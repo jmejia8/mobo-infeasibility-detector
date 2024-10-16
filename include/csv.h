@@ -1,3 +1,6 @@
+#ifndef CSV_H
+#define CSV_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -17,3 +20,7 @@ CSV *read_csv(const char *filename);
 void print_header(CSV *csv) ;
 void print_row(CSV *csv, int index);
 void free_csv(CSV *csv);
+float* get_columns(int *nx, CSV *archive, char token);
+CSV *read_data(const char *archive_fname);
+
+#endif

@@ -1,4 +1,5 @@
 #include "csv.h"
+
 // Function to dynamically allocate memory for a string
 char *copy_string(const char *source) {
     char *copy = (char *)malloc(strlen(source) + 1);
@@ -10,7 +11,7 @@ char *copy_string(const char *source) {
 CSV *read_csv(const char *filename) {
     FILE *file = fopen(filename, "r");
     if (!file) {
-        printf("Error: Cannot open file.\n");
+        // printf("Error: Cannot open file.\n");
         return NULL;
     }
 
@@ -58,6 +59,49 @@ void print_header(CSV *csv) {
     printf("\n");
 }
 
+
+void get_columns_range(int col_range[2], CSV *csv, char token){
+    int nx = 0;
+    col_range[0] = -1; col_range[1] = -1;
+    for (int i = 0; i < csv->col_count; i++) {
+        if (csv->header[i][0] != token)
+            continue;
+        col_range[1] = i+1;
+        if (col_range[0] == -1)
+            col_range[0] = i;
+    }
+}
+
+float* get_slice(CSV *csv, int row_start, int row_end, int col_start, int col_end)
+{
+    int nrow = row_end - row_start;
+    int ncol = col_end - col_start;
+
+    if (nrow == 0 || ncol == 0) {
+        return NULL;
+    }
+
+    float *X = (float*) malloc(sizeof(float)*nrow*ncol);
+    for (int i = 0; i < nrow; ++i) {
+        int ii = i*ncol;
+        for (int j = 0; j < ncol; ++j) {
+            X[ii + j] = csv->data[row_start + i][col_start + j];
+        }
+    }
+    return X;
+}
+
+
+float* get_columns(int *nx, CSV *archive, char token)
+{
+    int col_range[2];
+    int nrow = archive->row_count;
+    get_columns_range(col_range, archive, token);
+    nx[0] = col_range[1] - col_range[0];
+    return get_slice(archive, 0, nrow, col_range[0], col_range[1]);
+}
+
+
 // Function to print a row by index
 void print_row(CSV *csv, int index) {
     if (index < 0 || index >= csv->row_count) {
@@ -72,6 +116,9 @@ void print_row(CSV *csv, int index) {
 
 // Function to free the allocated memory
 void free_csv(CSV *csv) {
+    if (csv == NULL) {
+        return;
+    }
     for (int i = 0; i < csv->col_count; i++) {
         free(csv->header[i]);
     }
@@ -83,3 +130,12 @@ void free_csv(CSV *csv) {
     free(csv->data);
     free(csv);
 }
+
+
+CSV *read_data(const char *archive_fname)
+{
+    CSV *csv = read_csv(archive_fname);
+    return csv;
+}
+
+

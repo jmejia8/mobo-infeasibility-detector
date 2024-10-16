@@ -5,6 +5,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
+
 float* compute_distance_matrix(float *X, int nrow, int ncol);
 
 #endif // DISTANCE_CALCULATOR_HPP
