@@ -7,7 +7,6 @@
 #include <math.h>
 #include "csv.h"
 #include "distance_calculator.h"
-//int *solution_labeling(float *D, float *f, float *POF, int n_solutions, int n_objectives, float eps);
-void infeasibility_detector(const char *archive_fname, const char *true_front_fname, float eps, char *distance);
+void infeasibility_detector(char *archive_fname, char *true_front_fname, float eps, char *distance);
 
 #endif

@@ -174,52 +174,8 @@ int *solution_labeling(float *X, float *f, float *F, float* POF,
     return L;
 }
 
-/*
-int *solution_labeling(float *D, float *f, float* POF, int n_solutions, int n_objectives, float eps)
-{
-    int i,j;
-    int *L = (int*) malloc(sizeof(int)*n_solutions);
-    if (L==NULL) {
-        printf("Error: Fail allocating memory (solution labeling)\n");
-        exit(1);
-    }
 
-    // initialize labels as deceptive
-    for (i = 0; i < n_solutions; ++i) L[i] = 5;
-
-    // assign labels
-    for (i = 0; i < n_solutions; ++i) {
-        for (j = i+1; j < n_solutions; ++j) {
-            if (D[i*n_solutions + j] <= eps) {
-                update_label(L, i, j, f, n_objectives);
-            }
-        }
-    }
-
-    if (POF == NULL)
-        return L;
-
-    / *
-    int n_ul_objectives = 2; // FIXME
-    float *F = NULL;
-    for (i = 0; i < n_solutions; ++i) {
-        for (j = 0; j < n_pof; ++j) {
-            char c = compare(&POF[j*n_ul_objectives, &F[i*n_ul_objectives]], n_ul_objectives);
-            if (c == 'd') {
-                L[i] = 4;
-                break;
-            }
-        }
-    }
-    * /
-    
-
-    return L;
-}
-*/
-
-
-void infeasibility_detector(const char *archive_fname, const char *true_front_fname, float eps, char *distance)
+void infeasibility_detector(char *archive_fname, char *true_front_fname, float eps, char *distance)
 {
 
 
@@ -252,11 +208,9 @@ void infeasibility_detector(const char *archive_fname, const char *true_front_fn
         printf("Error: Fail loading UL decisions (X) required.\n");
         exit(1);
     }
-    //print_matrix(X, nrow, n_ul_decisions);
     // normalizing X
     printf("Normalizing X via (X - x_min) / (x_max - x_min)\n");
     normalize_by_row(X, nrow, n_ul_decisions);
-    // print_matrix(X, nrow, n_ul_decisions);
 
     // loading lower-level objectives (f)
     printf("Selecting LL objectives (f)...\n");
@@ -272,7 +226,6 @@ void infeasibility_detector(const char *archive_fname, const char *true_front_fn
 
     int nF = 0;
     float *F = get_columns(&nF, archive, 'F');
-    // print_matrix(F, nrow, nF);
 
     if (F != NULL)
         printf("Num. of UL objectives: %d\n", nf);
@@ -304,14 +257,12 @@ void infeasibility_detector(const char *archive_fname, const char *true_front_fn
 
     save_labels(strcat(archive_fname,"_labels.csv"), L, nrow);
 
-    /*
-    // Free memory
     free_csv(archive);
     free_csv(true_front);
     free(X);
     free(f);
+    free(F);
     free(L);
-    */
 
     printf("Done!\n");
 }
