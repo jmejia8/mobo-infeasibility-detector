@@ -1,6 +1,6 @@
 # Compiler and flags
 CXX = gcc
-CXXFLAGS = -O3 -lm  -Iinclude
+CXXFLAGS = -O3 -lm  -Iinclude -Wall
 
 SRC_DIR = src
 OBJ_DIR = obj

@@ -61,7 +61,6 @@ void print_header(CSV *csv) {
 
 
 void get_columns_range(int col_range[2], CSV *csv, char token){
-    int nx = 0;
     col_range[0] = -1; col_range[1] = -1;
     for (int i = 0; i < csv->col_count; i++) {
         if (csv->header[i][0] != token)
