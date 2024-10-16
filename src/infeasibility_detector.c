@@ -74,5 +74,18 @@ int *solution_labeling(float *D, float *f, float* POF, int n_solutions, int n_ob
     if (POF == NULL)
         return L;
 
+    int n_ul_objectives = 2; // FIXME
+    float *F = NULL;
+    for (i = 0; i < n_solutions; ++i) {
+        for (j = 0; j < n_pof; ++j) {
+            char c = compare(&POF[j*n_ul_objectives, &F[i*n_ul_objectives]], n_ul_objectives);
+            if (c == 'd') {
+                L[i] = 4;
+                break;
+            }
+        }
+    }
+    
+
     return L;
 }
