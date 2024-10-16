@@ -15,6 +15,14 @@ int main(int argc, char* argv[]) {
     char* archive_fname = argv[1];
     char* true_front_fname = NULL;
     float eps = 1e-8;
+
+    if (argc >= 3)
+        eps = strtof(argv[2], NULL);
+
+    if (argc == 4)
+        true_front_fname = argv[3];
+
+
     infeasibility_detector(archive_fname, true_front_fname, eps, "abc");
 
     /*

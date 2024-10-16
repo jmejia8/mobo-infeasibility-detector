@@ -1,14 +1,14 @@
 #include "distance_calculator.h"
 
-float manhattan_distance(float *X, int ncol, int i, int j) {
+float manhattan_distance(float *x, float *xx, int ncol) {
     float dist = 0.0;
     for (int k = 0; k < ncol; ++k) {
-        float diff = X[i * ncol + k] - X[j * ncol + k];
-        dist += fabs(diff);
+        dist += fabs(x[k] - xx[k]);
     }
     return dist;
 }
 
+/*
 float euclidean_distance(float *X, int ncol, int i, int j) {
     float dist = 0.0;
     for (int k = 0; k < ncol; ++k) {
@@ -41,3 +41,4 @@ float* compute_distance_matrix(float *X, int nrow, int ncol) {
 
     return dist_matrix;
 }
+*/

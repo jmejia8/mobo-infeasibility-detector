@@ -24,6 +24,6 @@ clean:
 	rm -rf $(OBJ_DIR) $(BIN_DIR)
 
 test: 
-	./$(EXECUTABLE) data/data.csv
+	./$(EXECUTABLE) test_data/TP1.csv 0.001 test_data/TP1_true10000.csv
 
 .PHONY: all clean

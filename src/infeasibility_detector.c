@@ -128,6 +128,53 @@ void update_label(int *L, int i, int j, float *f, int n_objectives)
     }
 }
 
+int *solution_labeling(float *X, float *f, float *F, float* POF,
+        int n_solutions, int n_ul_decisions, int n_ll_objectives, int n_ul_objectives,
+        int n_pof_solutions, float eps)
+{
+
+    int i,j;
+    int *L = (int*) malloc(sizeof(int)*n_solutions);
+    if (L==NULL) {
+        printf("Error: Fail allocating memory (solution labeling)\n");
+        exit(1);
+    }
+
+    // initialize labels as deceptive
+    for (i = 0; i < n_solutions; ++i) L[i] = 5;
+
+    // assign labels
+    for (i = 0; i < n_solutions; ++i) {
+        for (j = i+1; j < n_solutions; ++j) {
+            float d = manhattan_distance(&X[i*n_ul_decisions], &X[j*n_ul_decisions], n_ul_decisions);
+            //float d = D[i*n_solutions + j];
+            if (d <= eps)
+                update_label(L, i, j, f, n_ll_objectives);
+        }
+    }
+
+    if (POF == NULL || F == NULL)
+        return L;
+
+    printf("Using %d solutions from POF to remove infeasible solutions.\n", n_pof_solutions);
+    //print_matrix(X, n_pof_solutions, n_ul_objectives);
+
+
+    for (i = 0; i < n_solutions; ++i) {
+        for (j = 0; j < n_pof_solutions; ++j) {
+            char c = compare(&POF[j*n_ul_objectives], &F[i*n_ul_objectives], n_ul_objectives);
+            if (c == 'd') {
+                L[i] = 4;
+                break;
+            }
+        }
+    }
+
+
+    return L;
+}
+
+/*
 int *solution_labeling(float *D, float *f, float* POF, int n_solutions, int n_objectives, float eps)
 {
     int i,j;
@@ -152,7 +199,7 @@ int *solution_labeling(float *D, float *f, float* POF, int n_solutions, int n_ob
     if (POF == NULL)
         return L;
 
-    /*
+    / *
     int n_ul_objectives = 2; // FIXME
     float *F = NULL;
     for (i = 0; i < n_solutions; ++i) {
@@ -164,11 +211,12 @@ int *solution_labeling(float *D, float *f, float* POF, int n_solutions, int n_ob
             }
         }
     }
-    */
+    * /
     
 
     return L;
 }
+*/
 
 
 void infeasibility_detector(const char *archive_fname, const char *true_front_fname, float eps, char *distance)
@@ -179,21 +227,26 @@ void infeasibility_detector(const char *archive_fname, const char *true_front_fn
     // read CSV files
     CSV *archive = NULL, *true_front = NULL;
     archive = read_data(archive_fname);
+    true_front = read_data(true_front_fname);
     if (archive == NULL) {
         printf("Error: Fail loading archive.\n");
         exit(1);
-    }
+    } else
+        printf("File loaded: %s\n", archive_fname);
+
+    if (true_front == NULL) {
+        printf("Info: Pareto-optimal front was not provided.\n");
+    } else
+        printf("File loaded: %s\n", true_front_fname);
 
 
-    printf("File loaded: %s\n", archive_fname);
 
     // loading upper-level decisions
     printf("Selecting UL decisions (X)...\n");
     int nrow = archive->row_count;
-    printf("%d\n", nrow);
     int n_ul_decisions;
     float *X = get_columns(&n_ul_decisions, archive, 'x');
-    printf("Num. of UL decisions: %d\n", n_ul_decisions);
+    printf("Num. of UL decisions variables: %d\n", n_ul_decisions);
 
     if (X==NULL) {
         printf("Error: Fail loading UL decisions (X) required.\n");
@@ -203,7 +256,7 @@ void infeasibility_detector(const char *archive_fname, const char *true_front_fn
     // normalizing X
     printf("Normalizing X via (X - x_min) / (x_max - x_min)\n");
     normalize_by_row(X, nrow, n_ul_decisions);
-    //print_matrix(X, nrow, n_ul_decisions);
+    // print_matrix(X, nrow, n_ul_decisions);
 
     // loading lower-level objectives (f)
     printf("Selecting LL objectives (f)...\n");
@@ -214,15 +267,44 @@ void infeasibility_detector(const char *archive_fname, const char *true_front_fn
         printf("Error: Lower-level objectives are required but no provided.\n");
         exit(1);
     }
-    print_matrix(f, nrow, nf);
 
+    printf("Num. of LL objectives: %d\n", nf);
 
-    /*
+    int nF = 0;
+    float *F = get_columns(&nF, archive, 'F');
+    // print_matrix(F, nrow, nF);
+
+    if (F != NULL)
+        printf("Num. of UL objectives: %d\n", nf);
+
     // labeling procedure
     printf("Labeling data with epsilon = %e\n", eps);
-    int *L = solution_labeling(dist_matrix, f, POF, nrow, nf, eps);
-    save_labels(strcat(filename,"_labels.csv"), L, nrow);
+    int _nF_pof = 0;
+    float *POF = get_columns(&_nF_pof, true_front, 'F');
+    int n_pof_solutions = 0;
 
+    if (POF != NULL)
+        n_pof_solutions = true_front->row_count;
+    else
+        printf("Warning: Fail loading objectives from true Pareto-front.\n");
+
+
+    if (_nF_pof != nF) {
+        printf("Warning: objective spaces among POF and archive is different %d != %d.\n", _nF_pof, nF);
+        POF = NULL;
+    }
+
+    int *L = solution_labeling(X, f, F, POF, nrow, n_ul_decisions, nf,
+            nF, n_pof_solutions, eps);
+
+    for (int i = 0; i < nrow; ++i) {
+        break;
+        printf("%d ", L[i]);
+    }
+
+    save_labels(strcat(archive_fname,"_labels.csv"), L, nrow);
+
+    /*
     // Free memory
     free_csv(archive);
     free_csv(true_front);
