@@ -27,6 +27,7 @@ obj/
 
 # Ignore compiled data
 data/*.csv
+test_data/*.csv
 
 # Ignore generated or temporary files
 *.tar.gz
