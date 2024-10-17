@@ -2,12 +2,7 @@
 
 This project implements the labeling process to identify infeasible solutions in multi-objective bilevel optimization described in the paper:
 
-```
-J. -A. Mejía-de-Dios, A. Rodríguez-Molina and E. Mezura-Montes,
-"An Efficient Data-Driven Framework for Detecting Infeasible Solutions in 
-Multiobjective Evolutionary Bilevel Optimization," 
-in IEEE Transactions on Evolutionary Computation, doi: 10.1109/TEVC.2024.3469156.
-```
+J. -A. Mejía-de-Dios, A. Rodríguez-Molina and E. Mezura-Montes, *"An Efficient Data-Driven Framework for Detecting Infeasible Solutions in Multiobjective Evolutionary Bilevel Optimization,"* in IEEE Transactions on Evolutionary Computation, doi: 10.1109/TEVC.2024.3469156.
 
 
 ## Project Structure
