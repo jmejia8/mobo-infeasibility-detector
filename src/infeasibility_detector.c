@@ -157,12 +157,12 @@ int *solution_labeling(float *X, float *f, float *F, float* POF,
         return L;
 
     printf("Using %d solutions from POF to remove infeasible solutions.\n", n_pof_solutions);
-    //print_matrix(X, n_pof_solutions, n_ul_objectives);
+    // print_matrix(POF, n_pof_solutions, n_ul_objectives);
 
 
     for (i = 0; i < n_solutions; ++i) {
         for (j = 0; j < n_pof_solutions; ++j) {
-            char c = compare(&POF[j*n_ul_objectives], &F[i*n_ul_objectives], n_ul_objectives);
+            char c = compare(&F[i*n_ul_objectives], &POF[j*n_ul_objectives], n_ul_objectives);
             if (c == 'd') {
                 L[i] = 4;
                 break;
@@ -202,12 +202,13 @@ void infeasibility_detector(char *archive_fname, char *true_front_fname, float e
     int nrow = archive->row_count;
     int n_ul_decisions;
     float *X = get_columns(&n_ul_decisions, archive, 'x');
-    printf("Num. of UL decisions variables: %d\n", n_ul_decisions);
 
     if (X==NULL) {
         printf("Error: Fail loading UL decisions (X) required.\n");
         exit(1);
     }
+    printf("Num. of solutions in archive:   %d\n", nrow);
+    printf("Num. of UL decisions variables: %d\n", n_ul_decisions);
     // normalizing X
     printf("Normalizing X via (X - x_min) / (x_max - x_min)\n");
     normalize_by_row(X, nrow, n_ul_decisions);
