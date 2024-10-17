@@ -40,5 +40,6 @@ x1,x2,F1,F2,f1,f2
 
 The header specifies each upper-level decisions **x**, upper-level objectives **F**, lower-level objectives **f**.
 A similar format is required for the Pareto-optimal front `pof.csv`, only upper-level objectives are mandatory.
+Note that if `pof.csv` is given, the `epsilon` parameter should be given.
 
 3. The resulting labels are saved next to `archive.csv` with name `archive.csv_labels.csv`
