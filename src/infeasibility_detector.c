@@ -228,7 +228,7 @@ void infeasibility_detector(char *archive_fname, char *true_front_fname, float e
     float *F = get_columns(&nF, archive, 'F');
 
     if (F != NULL)
-        printf("Num. of UL objectives: %d\n", nf);
+        printf("Num. of UL objectives: %d\n", nF);
 
     // labeling procedure
     printf("Labeling data with epsilon = %e\n", eps);
