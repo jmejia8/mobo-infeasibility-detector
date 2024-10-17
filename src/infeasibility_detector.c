@@ -157,10 +157,10 @@ int *solution_labeling(float *X, float *f, float *F, float* POF,
         return L;
 
     printf("Using %d solutions from POF to remove infeasible solutions.\n", n_pof_solutions);
-    // print_matrix(POF, n_pof_solutions, n_ul_objectives);
 
 
     for (i = 0; i < n_solutions; ++i) {
+        if (L[i] == 4) continue; // infeasible solutions are ignored in this step
         for (j = 0; j < n_pof_solutions; ++j) {
             char c = compare(&F[i*n_ul_objectives], &POF[j*n_ul_objectives], n_ul_objectives);
             if (c == 'd') {
