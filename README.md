@@ -43,3 +43,31 @@ A similar format is required for the Pareto-optimal front `pof.csv`, only upper-
 Note that if `pof.csv` is given, the `epsilon` parameter should be given.
 
 3. The resulting labels are saved next to `archive.csv` with name `archive.csv_labels.csv`
+
+
+
+## How to cite?
+
+Please cite us using the bibtex entry
+
+```bib
+@article{MejadeDios2024,
+  title = {An Efficient Data-Driven Framework for Detecting Infeasible Solutions in Multiobjective Evolutionary Bilevel Optimization},
+  ISSN = {1941-0026},
+  url = {http://dx.doi.org/10.1109/TEVC.2024.3469156},
+  DOI = {10.1109/tevc.2024.3469156},
+  journal = {IEEE Transactions on Evolutionary Computation},
+  publisher = {Institute of Electrical and Electronics Engineers (IEEE)},
+  author = {Mejía-de-Dios,  Jesús-Adolfo and Rodríguez-Molina,  Alejandro and Mezura-Montes,  Efrén},
+  year = {2024},
+  pages = {1–1}
+}
+```
+
+or the citation string
+
+```
+J. -A. Mejía-de-Dios, A. Rodríguez-Molina and E. Mezura-Montes, "An Efficient Data-Driven Framework for Detecting Infeasible Solutions in Multiobjective Evolutionary Bilevel Optimization," in IEEE Transactions on Evolutionary Computation, doi: 10.1109/TEVC.2024.3469156. keywords: {Optimization;Evolutionary computation;Vectors;Linear programming;Metaheuristics;Computational modeling;Closed box;Training;Predictive models;Measurement}, 
+```
+
+
