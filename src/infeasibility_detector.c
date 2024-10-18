@@ -190,6 +190,9 @@ void infeasibility_detector(char *archive_fname, char *true_front_fname, float e
     } else
         printf("File loaded: %s\n", archive_fname);
 
+    printf("Header: ");
+    print_header(archive);
+
     if (true_front == NULL) {
         printf("Info: Pareto-optimal front was not provided.\n");
     } else
